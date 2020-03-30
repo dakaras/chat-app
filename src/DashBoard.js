@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Paper'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,7 +57,16 @@ export default function DashBoard() {
             </List>
           </div>
           <div className={classes.chatWindow}>
-            
+              {
+                [{from: 'user', msg: 'hello'}].map((chat, index) => (
+                  <div className={classes.flex} key={index}>
+                          <Chip label={chat.from} className={classes.chip}/>
+                          <Typography variant='p'>
+                            {chat.msg}
+                          </Typography>
+                  </div>
+                ))
+              }
           </div>
         </div>
         <div className={classes.flex}>
