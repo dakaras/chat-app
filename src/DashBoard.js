@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function DashBoard() {
   //Context Store
-  const [allChats] = React.useContext(CTX)
+  const {allChats, sendChatAction} = React.useContext(CTX)
   const topics = Object.keys(allChats)
 
   //local state
@@ -89,7 +89,14 @@ export default function DashBoard() {
           value={textValue}
           onChange={event => handleChange(event.target.value)}
           className={classes.chatBox} />
-          <Button variant="contained" color="primary">
+          <Button 
+          variant="contained" 
+          color="primary"
+          className={classes.button}
+          onClick={() => {
+            sendChatAction(textValue)
+            handleChange("")
+          }}>
             Send
           </Button>
         </div>
