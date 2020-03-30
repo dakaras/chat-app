@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import {CTX} from './Store'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,8 +38,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DashBoard() {
-  const classes = useStyles();
+  //Context Store
+  const [allChats] = React.useContext(CTX)
+  const topics = Object.keys(allChats)
+
+  //local state
   const [textValue, handleChange] = React.useState('')
+  const [activeTopic, changeActiveTopic] = React.useState(topics[0])
+
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -47,14 +55,14 @@ export default function DashBoard() {
         Chat App
         </Typography>
         <Typography variant='h3' component='h5'>
-          Topic
+          {activeTopic}
         </Typography>
         <div className={classes.flex}>
           <div className={classes.topicsWindow}>
             <List>
               {
-                ['topic'].map(topic => (
-                  <ListItem key={topic} button>
+                topics.map(topic => (
+                  <ListItem onClick={event=> changeActiveTopic(event.target.innerText)} key={topic} button>
                     <ListItemText primary={topic} />
                    </ListItem>
                 ))
@@ -63,10 +71,10 @@ export default function DashBoard() {
           </div>
           <div className={classes.chatWindow}>
               {
-                [{from: 'user', msg: 'hello'}].map((chat, index) => (
+                allChats[activeTopic].map((chat, index) => (
                   <div className={classes.flex} key={index}>
                           <Chip label={chat.from} className={classes.chip}/>
-                          <Typography variant='p'>
+                          <Typography variant='body1' gutterBottom>
                             {chat.msg}
                           </Typography>
                   </div>
